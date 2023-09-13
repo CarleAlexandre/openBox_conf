@@ -1,0 +1,113 @@
+conky.config = {
+	background = false,
+	update_interval = 1,
+
+	cpu_avg_samples = 2,
+	net_avg_samples = 2,
+	temperature_unit = 'fahrenheit',
+
+	double_buffer = true,
+	no_buffers = true,
+	text_buffer_size = 2048,
+
+	gap_x = 0,
+	gap_y = 40,
+	minimum_width = 350, minimum_height = 1000,
+	maximum_width = 350,
+	own_window = true,
+	own_window_class = 'conky',
+	own_window_argb_visual = true,
+	own_window_argb_value = 50,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+	background = false,
+	border_inner_margin = 0,
+	border_outer_margin = 0,
+	alignment = 'top_right',
+
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = true,
+
+	override_utf8_locale = true,
+	use_xft = true,
+	font = 'DejaVu Sans:size=8.5',
+	xftalpha = 0.5,
+	uppercase = false,
+
+	default_color = 'white',
+        color1 = 'purple',
+        color2 = 'green',
+
+
+};
+
+conky.text = [[
+${font DejaVu Sans:style=Bold:size=8}${color0}SYSTEM${font} ${color1}${hr}${color}
+${goto 10}Host Name:${font}${goto 120}${nodename}
+${goto 10}User:${goto 120}${user}
+${goto 10}Date/Time:${goto 120}${time %m/%d/%y}${goto 185}${time %H:%M:%S}
+${goto 10}Uptime:${goto 120}${uptime}
+${goto 10}OS:${goto 120}${execi 10800 cat /etc/issue.net}
+${goto 10}Kernel:${goto 120}${kernel}
+#${goto 10}Updates: ${execi 360 aptitude search "~U" | wc -l | tail}
+${font DejaVu Sans:style=Bold:size=8}${color0}PROCESSES${font} ${color1}${hr}${color}
+${goto 10}CPU Type${goto 120}${execi 1000 grep model /proc/cpuinfo | cut -d : -f2 | tail -1 | sed 's/\s//'}
+${goto 10}Threads/Process${goto 120}$threads/$processes ($running_processes running)
+${color1}${goto 120}${cpugraph cpu1, 0AF70E F505F5 -t}${color}
+${goto 10}Core 0: ${execi 5 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU1: ${cpu cpu0}%${goto 190}${color0}${cpubar cpu 0 8,50, 0AF70E F505F5 -t}${color} ${freq 1} MHz
+${goto 56}${execi 5 sensors|grep 'Core 0'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU2: ${cpu cpu1}%${goto 190}${color0}${cpubar cpu 1 8,50, -t}${color} ${freq 2} MHz
+${goto 10}Core 1: ${execi 5 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU3: ${cpu cpu2}%${goto 190}${color0}${cpubar cpu 2 8,50, 0AF70E F505F5 -t}${color} ${freq 3} MHz
+${goto 56}${execi 5 sensors|grep 'Core 1'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU4: ${cpu cpu3}%${goto 190}${color0}${cpubar cpu 3 8,50, 0AF70E F505F5 -t}${color} ${freq 4} MHz
+${goto 10}Core 2: ${execi 5 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU5: ${cpu cpu4}%${goto 190}${color0}${cpubar cpu 4 8,50, 0AF70E F505F5 -t}${color} ${freq 5} MHz
+${goto 56}${execi 5 sensors|grep 'Core 2'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU6: ${cpu cpu5}%${goto 190}${color0}${cpubar cpu 5 8,50, 0AF70E F505F5 -t}${color} ${freq 6} MHz
+${goto 10}Core 3: ${execi 5 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU7: ${cpu cpu6}%${goto 190}${color0}${cpubar cpu 6 8,50, 0AF70E F505F5 -t}${color} ${freq 7} MHz
+${goto 56}${execi 5 sensors|grep 'Core 3'| awk -F'+' '{print $2}' | awk -F'.' '{print $1}'}°C${goto 120}CPU8: ${cpu cpu7}%${goto 190}${color0}${cpubar cpu 7 8,50, 0AF70E F505F5 -t}${color} ${freq 8} MHz
+#${goto 10}${font DejaVu Sans:size=12}l${font}   GPU1:    ${exec nvidia-settings -t -q [gpu:0]/GPUCoreTemp} °C${goto 150}GPU2:   ${exec nvidia-settings -t -q [gpu:1]/GPUCoreTemp} °C
+${goto 10}Top Process CPU${goto 120}${top name 1}${top cpu 1}
+${goto 120}${top name 2}${top cpu 2}
+${goto 120}${top name 3}${top cpu 3}
+${goto 10}Top Process MEM${goto 120}${top_mem name 1}${top_mem mem_res 1}
+${goto 120}${top_mem name 2}${top_mem mem_res 2}
+${goto 120}${top_mem name 3}${top_mem mem_res 3}
+${font DejaVu Sans:style=Bold:size=8}${color0}MEMORY${font} ${color1}${hr}${color}
+${goto 10}Physical Ram${goto 120}$mem / $memmax ($memperc%)
+${goto 10}Swap${goto 120}$swap / $swapmax ($swapperc%)
+${color1}${goto 120}${memgraph 15,300, 0AF70E F505F5 -t}${color}
+
+${goto 5}${font DejaVu Sans:style=Bold:size=8}${color2}FIXED DISKS ${font} ${color1}${hr}${color}
+${goto 10}${voffset 4}${font DejaVu Sans:size=12}4${font}   Root: ${alignr}${fs_free /} / ${fs_size /}
+${goto 5}${voffset 4}${color1}${fs_bar /}${color}
+${goto 10}${voffset 4}${font DejaVu Sans:size=12}4${font}   Home: ${alignr}${fs_free /home} / ${fs_size /home}
+${goto 5}${voffset 4}${color1}${fs_bar /home}${color}
+${goto 10}${voffset 4}${font DejaVu Sans:size=12}4${font}   EX2: ${alignr}${fs_free /mnt/EX2} / ${fs_size /mnt/EX2}
+${goto 5}${voffset 4}${color1}${fs_bar /mnt/EX2}${color}
+${goto 10}${voffset 4}${font DejaVu Sans:size=12}4${font}   EX2home: ${alignr}${fs_free /mnt/EX2home} / ${fs_size /mnt/EX2home}
+${goto 5}${voffset 4}${color1}${fs_bar /mnt/EX2home}${color}
+${goto 10}${voffset 4}${font DejaVu Sans:size=12}4${font}   Storage: ${alignr}${fs_free /media/Storage} / ${fs_size /media/Storage}
+${goto 5}${voffset 4}${color1}${fs_bar /media/Storage}${color}
+${voffset -5}
+${goto 5}${font DejaVu Sans:style=Bold:size=8}${color0}NETWORK${font} ${color1}${hr}${color}
+${goto 10}${voffset -6}${font Courier 10 Pitch:size=8}${font}   Up: ${upspeed eno1} kb/s ${alignr}${upspeedgraph eno1 8,60 1783B4 FFFFFF}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Down: ${downspeed eno1} kb/s ${alignr}${downspeedgraph eno1 8,60 1783B4 FFFFFF}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Upload: ${alignr}${totalup eno1}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Download: ${alignr}${totaldown eno1}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Gateway Ip: ${alignr}${gw_ip}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Local Ip: ${alignr}${addr eno1}
+${goto 10}${voffset 1}${font Courier 10 Pitch:size=8}${font}   Public Ip: ${alignr}${execi 60 wget -O - -q icanhazip.com}
+
+${goto 5}${font DejaVu Sans:style=Bold:pixelsize=10}${color0}INBOUND:  ${color white}${tcp_portmon 1 32767 count}${color0}${alignr}PORT
+${goto 5}${font Bitstream Vera Sans Mono:size=7}${color white}${tcp_portmon 1 32767 rhost 0} ${alignr} ${tcp_portmon 1 32767 lservice 0}
+${goto 5}${tcp_portmon 1 32767 rhost 1} ${alignr} ${tcp_portmon 1 32767 lservice 1}
+${goto 5}${tcp_portmon 1 32767 rhost 2} ${alignr} ${tcp_portmon 1 32767 lservice 2}
+${goto 5}${tcp_portmon 1 32767 rhost 3} ${alignr} ${tcp_portmon 1 32767 lservice 3}
+${goto 5}${tcp_portmon 1 32767 rhost 6} ${alignr} ${tcp_portmon 1 32767 lservice 4}${font}
+
+${goto 5}${color0}Outbound Connect:  ${color white}${tcp_portmon 32768 61000 count}${color1}${alignr}Service/Port
+${goto 5}${font Bitstream Vera Sans Mono:size=7}${color white}${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0}
+${goto 5}${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1}
+${goto 5}${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2}
+${goto 5}${tcp_portmon 32768 61000 rhost 3} ${alignr} ${tcp_portmon 32768 61000 rservice 3}
+${goto 5}${tcp_portmon 32768 61000 rhost 4} ${alignr} ${tcp_portmon 32768 61000 rservice 4}
+
+]];

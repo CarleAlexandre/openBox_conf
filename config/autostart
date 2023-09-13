@@ -1,0 +1,11 @@
+# start clipboard
+clipit -d &
+
+# config display setting
+~/.config/screen_setting.sh &
+
+picom -b --config ~/.config/picom/picom.conf &
+
+tint2 &
+# ~/.config/polybar/launch.sh &
+conky &
